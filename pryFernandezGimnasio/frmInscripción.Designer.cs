@@ -28,6 +28,7 @@
         /// </summary>
         private void InitializeComponent()
         {
+            System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(frmInscripción));
             groupBoxDatosPersonales = new GroupBox();
             txtApellido = new TextBox();
             lblApellido = new Label();
@@ -51,6 +52,8 @@
             rbtEfectivo = new RadioButton();
             btnCalcular = new Button();
             btnLimpiar = new Button();
+            Clientes = new ListBox();
+            btnConsultar = new Button();
             groupBoxDatosPersonales.SuspendLayout();
             gropuBoxPlan.SuspendLayout();
             cboPago.SuspendLayout();
@@ -295,18 +298,39 @@
             btnLimpiar.UseVisualStyleBackColor = true;
             btnLimpiar.Click += btnLimpiar_Click;
             // 
+            // Clientes
+            // 
+            Clientes.FormattingEnabled = true;
+            Clientes.Location = new Point(487, 24);
+            Clientes.Name = "Clientes";
+            Clientes.Size = new Size(379, 264);
+            Clientes.TabIndex = 5;
+            // 
+            // btnConsultar
+            // 
+            btnConsultar.Location = new Point(512, 319);
+            btnConsultar.Name = "btnConsultar";
+            btnConsultar.Size = new Size(94, 29);
+            btnConsultar.TabIndex = 6;
+            btnConsultar.Text = "Consultar";
+            btnConsultar.UseVisualStyleBackColor = true;
+            btnConsultar.Click += btnConsultar_Click;
+            // 
             // frmInscripción
             // 
             AcceptButton = btnCalcular;
             AutoScaleDimensions = new SizeF(8F, 20F);
             AutoScaleMode = AutoScaleMode.Font;
-            ClientSize = new Size(498, 484);
+            ClientSize = new Size(878, 484);
+            Controls.Add(btnConsultar);
+            Controls.Add(Clientes);
             Controls.Add(btnLimpiar);
             Controls.Add(btnCalcular);
             Controls.Add(cboPago);
             Controls.Add(gropuBoxPlan);
             Controls.Add(groupBoxDatosPersonales);
             FormBorderStyle = FormBorderStyle.FixedSingle;
+            Icon = (Icon)resources.GetObject("$this.Icon");
             MaximizeBox = false;
             Name = "frmInscripción";
             StartPosition = FormStartPosition.CenterScreen;
@@ -346,5 +370,7 @@
         private Label lblCuotas;
         private Button btnCalcular;
         private Button btnLimpiar;
+        private ListBox Clientes;
+        private Button btnConsultar;
     }
 }

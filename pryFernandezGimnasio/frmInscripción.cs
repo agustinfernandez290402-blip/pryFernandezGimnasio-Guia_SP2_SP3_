@@ -2,6 +2,9 @@ namespace pryFernandezGimnasio
 {
     public partial class frmInscripción : Form
     {
+        string[] arrayClientes = new string[5];
+        int indiceClientes = 0;
+
         const decimal PRECIO_MUSCULACION = 15000.00m;
         const decimal PRECIO_FUNCIONAL = 18000.00m;
         const decimal PRECIO_NATACION = 22000.00m;
@@ -60,7 +63,7 @@ namespace pryFernandezGimnasio
             decimal subtotal = 0.00m;
             decimal porcentajeDescuento = 0.00m;
             decimal porcentajeAjustePago = 0.00m;
-            
+
             decimal valorCuota = 0.00m;
 
             edadIngresada = int.Parse(txtEdad.Text);
@@ -78,111 +81,111 @@ namespace pryFernandezGimnasio
 
             string planElegido = cboPlan.Text;
 
-                switch (planElegido)
+            switch (planElegido)
+            {
+                case "Musculación":
+                    precioMensual = PRECIO_MUSCULACION;
+                    break;
+                case "Funcional":
+                    precioMensual = PRECIO_FUNCIONAL;
+                    break;
+                case "Natación":
+                    precioMensual = PRECIO_NATACION;
+                    break;
+                default:
+                    MessageBox.Show("Por favor, seleccione un plan válido.");
+                    return;
+            }
+            int indiceTurno = cboTurno.SelectedIndex;
+            string horarioTurno = "";
+
+            switch (indiceTurno)
+            {
+                case 0:
+                    horarioTurno = "Mañana (7 a 12 h)";
+                    break;
+                case 1:
+                    horarioTurno = "Tarde (14 a 18 h)";
+                    break;
+                case 2:
+                    horarioTurno = "Noche (18 a 23 h)";
+                    break;
+                default:
+                    horarioTurno = "Turno a definir";
+                    break;
+            }
+
+            if (chkCasillero.Checked) precioMensual += PRECIO_CASILLERO;
+
+
+            subtotal = precioMensual * cantidadMeses;
+
+            porcentajeDescuento = 0.00m;
+
+
+            if (edadIngresada < 18)
+            {
+                porcentajeDescuento = 0.25m;
+            }
+            else
+            {
+                if (edadIngresada >= 65)
                 {
-                    case "Musculación":
-                        precioMensual = PRECIO_MUSCULACION;
-                        break;
-                    case "Funcional":
-                        precioMensual = PRECIO_FUNCIONAL;
-                        break;
-                    case "Natación":
-                        precioMensual = PRECIO_NATACION;
-                        break;
-                    default:
-                        MessageBox.Show("Por favor, seleccione un plan válido.");
-                        return;
-                }
-                int indiceTurno = cboTurno.SelectedIndex;
-                string horarioTurno = "";
-
-                switch (indiceTurno)
-                {
-                    case 0:
-                        horarioTurno = "Mañana (7 a 12 h)";
-                        break;
-                    case 1:
-                        horarioTurno = "Tarde (14 a 18 h)";
-                        break;
-                    case 2:
-                        horarioTurno = "Noche (18 a 23 h)";
-                        break;
-                    default:
-                        horarioTurno = "Turno a definir";
-                        break;
-                }
-
-                if (chkCasillero.Checked) precioMensual += PRECIO_CASILLERO;
-
-
-                subtotal = precioMensual * cantidadMeses;
-
-                porcentajeDescuento = 0.00m;
-
-
-                if (edadIngresada < 18)
-                {
-                    porcentajeDescuento = 0.25m;
+                    porcentajeDescuento = 0.30m;
                 }
                 else
                 {
-                    if (edadIngresada >= 65)
+                    if (chkEstudiante.Checked)
                     {
-                        porcentajeDescuento = 0.30m;
+                        porcentajeDescuento = 0.15m;
                     }
                     else
                     {
-                        if (chkEstudiante.Checked)
-                        {
-                            porcentajeDescuento = 0.15m;
-                        }
-                        else
-                        {
-                            porcentajeDescuento = 0.00m;
-                        }
+                        porcentajeDescuento = 0.00m;
                     }
                 }
+            }
 
 
-                decimal montoDescuento = subtotal * porcentajeDescuento;
-                decimal subtotalConDescuento = subtotal - montoDescuento;
-                porcentajeAjustePago = 0.00m;
+            decimal montoDescuento = subtotal * porcentajeDescuento;
+            decimal subtotalConDescuento = subtotal - montoDescuento;
+            porcentajeAjustePago = 0.00m;
 
-                
-                if (rbtEfectivo.Checked)
+
+            if (rbtEfectivo.Checked)
+            {
+                porcentajeAjustePago = -0.10m;
+            }
+            else
+            {
+
+                int cuotasElegidas = int.Parse(cboCuotas.Text);
+
+                if (cuotasElegidas == 1)
                 {
-                    porcentajeAjustePago = -0.10m; 
+                    porcentajeAjustePago = 0.00m;
                 }
-                else
+                else if (cuotasElegidas == 3)
                 {
-                   
-                    int cuotasElegidas = int.Parse(cboCuotas.Text);
-
-                    if (cuotasElegidas == 1)
-                    {
-                        porcentajeAjustePago = 0.00m; 
-                    }
-                    else if (cuotasElegidas == 3)
-                    {
-                        porcentajeAjustePago = 0.10m; 
-                    }
-                    else if (cuotasElegidas == 6)
-                    {
-                        porcentajeAjustePago = 0.20m; 
-                    }
+                    porcentajeAjustePago = 0.10m;
                 }
+                else if (cuotasElegidas == 6)
+                {
+                    porcentajeAjustePago = 0.20m;
+                }
+            }
 
-              
-                decimal montoDescuentoEdad = subtotal * porcentajeDescuento;
-                subtotalConDescuento = subtotal - montoDescuentoEdad;
 
-                decimal montoAjustePago = subtotalConDescuento * porcentajeAjustePago;
-                decimal totalFinal = subtotalConDescuento + montoAjustePago;
+            decimal montoDescuentoEdad = subtotal * porcentajeDescuento;
+            subtotalConDescuento = subtotal - montoDescuentoEdad;
 
-                string categoriaSocio = (edadIngresada < 18) ? "Menor" : "Mayor";
-                string textoFormaPago = rbtEfectivo.Checked ? "Efectivo" : "Tarjeta en " + cboCuotas.Text + " cuotas";
-                int cantidadCuotasValor = rbtEfectivo.Checked ? 1 : int.Parse(cboCuotas.Text);
-                valorCuota = totalFinal / cantidadCuotasValor;
+            decimal montoAjustePago = subtotalConDescuento * porcentajeAjustePago;
+            decimal totalFinal = subtotalConDescuento + montoAjustePago;
+
+            string categoriaSocio = (edadIngresada < 18) ? "Menor" : "Mayor";
+            string textoFormaPago = rbtEfectivo.Checked ? "Efectivo" : "Tarjeta en " + cboCuotas.Text + " cuotas";
+            int cantidadCuotasValor = rbtEfectivo.Checked ? 1 : int.Parse(cboCuotas.Text);
+            valorCuota = totalFinal / cantidadCuotasValor;
             string textoDescuentoEdad = (porcentajeDescuento == 0.25m) ? "25% (Menor de 18)" :
                                 (porcentajeDescuento == 0.30m) ? "30% (65 años o más)" :
                                 (porcentajeDescuento == 0.15m) ? "15% (Estudiante)" : "Sin descuento";
@@ -190,16 +193,32 @@ namespace pryFernandezGimnasio
                              (porcentajeAjustePago == 0.00m) ? "Sin recargo (1 cuota)" :
                              (porcentajeAjustePago == 0.10m) ? "10% de Recargo (3 cuotas)" : "20% de Recargo (6 cuotas)";
 
-            MessageBox.Show("--- RESUMEN DE INSCRIPCIÓN ---\n" +
-                "Socio: " + nombreIngresado + " " + apellidoIngresado + " (" + categoriaSocio + ")\n" +
-                "Edad: " + edadIngresada + " años\n" +
-                "Plan: " + planElegido + "\n" +
-                "Turno: " + horarioTurno + "\n" +
-                "Meses: " + cantidadMeses + "\n" +
-                "Descuento Aplicado: " + textoDescuentoEdad + "\n" +
-                "Forma de Pago: " + textoFormaPago + " (" + textoAjustePago + ")\n" +
-                "Total a Pagar: $" + totalFinal.ToString("N2", new System.Globalization.CultureInfo("es-AR")));
+            string mensaje = "--- RESUMEN DE INSCRIPCIÓN ---\n" +
+                 "Socio: " + nombreIngresado + " " + apellidoIngresado + " (" + categoriaSocio + ")\n" +
+                 "Edad: " + edadIngresada + " años\n" +
+                 "Plan: " + planElegido + "\n" +
+                 "Turno: " + horarioTurno + "\n" +
+                 "Meses: " + cantidadMeses + "\n" +
+                 "Descuento Aplicado: " + textoDescuentoEdad + "\n" +
+                 "Forma de Pago: " + textoFormaPago + " (" + textoAjustePago + ")\n" +
+                 "Total a Pagar: $" + totalFinal.ToString("N2", new System.Globalization.CultureInfo("es-AR"));
 
+
+            MessageBox.Show(mensaje, "Gimnasio Siglo - Resultado", MessageBoxButtons.OK, MessageBoxIcon.Information);
+
+
+            string mensajeParaVector = nombreIngresado + " " + apellidoIngresado + " | Plan: " + planElegido + " | Turno: " + horarioTurno + " | Meses: " + cantidadMeses + " | Total: $" + totalFinal.ToString("N2", new System.Globalization.CultureInfo("es-AR"));
+
+            if (indiceClientes < arrayClientes.Length)
+            {
+                arrayClientes[indiceClientes] = mensajeParaVector;
+                indiceClientes++;
+            }
+
+            if (indiceClientes == arrayClientes.Length)
+            {
+                btnCalcular.Enabled = false;
+            }
 
             EstadoInicial();
             {
@@ -218,7 +237,7 @@ namespace pryFernandezGimnasio
                 txtNombre.Focus();
             }
         }
-        
+
 
         private void txtEdad_KeyPress(object sender, KeyPressEventArgs e)
         {
@@ -274,7 +293,21 @@ namespace pryFernandezGimnasio
                 cboCuotas.Enabled = false;
                 cboCuotas.SelectedIndex = -1; // Deja sin selección
             }
-        
+
+
+
+
+        }
+
+        private void btnConsultar_Click(object sender, EventArgs e)
+        {
+            Clientes.Items.Clear(); // Limpiamos la lista para que no se duplique
+
+            for (int i = 0; i < indiceClientes; i++)
+            {
+                Clientes.Items.Add(arrayClientes[i]);
+            }
+        }
     }
     }
-}
+

@@ -28,7 +28,6 @@
         /// </summary>
         private void InitializeComponent()
         {
-            System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(frmLoginGimnasioSiglo));
             btnIngresar = new Button();
             SuspendLayout();
             // 
@@ -46,10 +45,11 @@
             // 
             AutoScaleDimensions = new SizeF(8F, 20F);
             AutoScaleMode = AutoScaleMode.Font;
-            BackgroundImage = (Image)resources.GetObject("$this.BackgroundImage");
+            BackgroundImage = Properties.Resources.siglogymm;
             BackgroundImageLayout = ImageLayout.Stretch;
             ClientSize = new Size(498, 484);
             Controls.Add(btnIngresar);
+            DoubleBuffered = true;
             Name = "frmLoginGimnasioSiglo";
             StartPosition = FormStartPosition.CenterScreen;
             Text = "frmLoginGimnasioSiglo";
